@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+# sync-obsidian-memory — sync Obsidian vault into OpenClaw memory index
+# Runs via cron; safe to run manually anytime.
+# IMPORTANT: excludes must come BEFORE includes in rsync rule order.
+
+VAULT="$HOME/Documents/Obsidian Vault"
+DEST="$HOME/.openclaw/workspace/memory/obsidian"
+OPENCLAW="/opt/homebrew/bin/openclaw"
+
+mkdir -p "$DEST"
+
+rsync -a --delete \
+  --exclude="API Keys*" \
+  --exclude="*secret*" \
+  --exclude="*password*" \
+  --exclude="*token*" \
+  --exclude="*credential*" \
+  --exclude=".obsidian/" \
+  --exclude=".smart-env/" \
+  --exclude="*.canvas" \
+  --include="*/" \
+  --include="*.md" \
+  --exclude="*" \
+  "$VAULT/" "$DEST/"
+
+# Hard-delete any sensitive files that may have slipped through
+find "$DEST" -iname "*api*key*" -o -iname "*secret*" -o -iname "*password*" -o -iname "*token*" | while read f; do
+  echo "WARNING: removing sensitive file from memory: $f"
+  rm -f "$f"
+done
+
+PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" $OPENCLAW memory index 2>&1
