@@ -1,0 +1,23 @@
+[user]
+	name = Spooky Juice
+	email = sj@spookyjuice.ai
+[core]
+	pager = delta
+	autocrlf = false
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[rerere]
+	enabled = true

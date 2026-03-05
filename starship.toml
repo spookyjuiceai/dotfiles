@@ -1,0 +1,45 @@
+# Starship prompt — SJ agent machine
+
+format = """
+$directory$git_branch$git_status$nodejs$python$bun$cmd_duration
+$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[directory]
+truncation_length = 4
+truncate_to_repo = true
+style = "bold cyan"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "bold red"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+modified = "!${count}"
+untracked = "?${count}"
+staged = "+${count}"
+
+[nodejs]
+symbol = " "
+style = "bold green"
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+
+[python]
+symbol = " "
+style = "bold yellow"
+detect_files = ["requirements.txt", "pyproject.toml", ".python-version"]
+
+[bun]
+symbol = " "
+style = "bold yellow"
+
+[cmd_duration]
+min_time = 2000
+format = " [$duration](bold yellow)"
